@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container teal_color my-5 text-center">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            {% if status_color == "Red" %}
+            <div style="margin-left: 5px; color: red;"> {{ status }} </div>
+            {% else %}
+            <div style="margin-left: 5px"> {{ status }} </div>
+            {% endif %}
+            <br>
+            <form method="post">
+                {% csrf_token %}
+                <table>
+                    <p>{{ registrationform.username.label }}</p>
+                    <p>{{ registrationform.username }}</p>
+                    <p>{{ registrationform.full_name.label }}</p>
+                    <p>{{ registrationform.full_name }}</p>
+                    <p>{{ registrationform.password1.label }}</p>
+                    <p>{{ registrationform.password1 }}</p>
+                    <p>{{ registrationform.password2.label }}</p>
+                    <p>{{ registrationform.password2 }}</p>
+                    <input type="submit" value="Submit"/>
+                </table>
+                
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

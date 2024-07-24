@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container teal_color my-5 text-center">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 style="margin-left: 5px;" style="color: red;"> {{ status }} </h1>
+            <br>
+            <form method="post">
+                {% csrf_token %}
+                <table>
+                    {% if name %}
+                    <p>Room № {{ name }}</p>
+                    {% else %}
+                    <p>Room № {{ reservationform.room }}</p>
+                    {% endif %}
+                    <p>{{ reservationform.date_from.label }}</p>
+                    <p>{{ reservationform.date_from }}</p>
+                    <p>{{ reservationform.date_untill.label }}</p>
+                    <p>{{ reservationform.date_untill }}</p>
+                    <input type="submit" value="Reserve room"/>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container teal_color my-5 text-center">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <div style="margin-left: 5px;" style="color: red;"> {{ occupancy_label }} </div>
+            {% for reservation in room_occupancy %}
+            <div style="font-size: 80%;">
+                {{ reservation }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

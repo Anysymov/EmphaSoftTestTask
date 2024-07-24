@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container teal_color my-5 text-center">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            {% if status_color == "Red" %}
+            <div style="margin-left: 5px; color: red;"> {{ status }} </div>
+            {% else %}
+            <div style="margin-left: 5px"> {{ status }} </div>
+            {% endif %}
+            <br>
+            <form method="post" action="/profile_entrance/">
+                {% csrf_token %}
+                <p style="padding-right: 42px">{{ loginform.login.label }} {{ loginform.login }}</p>
+                <p style="padding-right: 70px">{{ loginform.password.label }} {{ loginform.password }}</p>
+                <input type="submit" value="Log into your account"/>
+            </form>
+            <br>
+            <form method="post" action="register/">
+                {% csrf_token %}
+                <input type="submit" value="Create a new account"/>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

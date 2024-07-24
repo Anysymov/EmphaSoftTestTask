@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <br>
+    <form method="post" action="/rooms/">
+        {% csrf_token %}
+        <table>
+            {{ filters.spots_min.label }} {{ filters.spots_min }}
+            {{ filters.spots_max.label }} {{ filters.spots_max }}
+        </table>
+        <br>
+        <table>
+            {{ filters.price_min.label }} {{ filters.price_min }}
+            {{ filters.price_max.label }} {{ filters.price_max }}
+        </table>
+        <br>
+        <table>
+            {{ filters.vacant_from.label }} {{ filters.vacant_from }}
+            {{ filters.vacant_untill.label }} {{ filters.vacant_untill }}
+        </table>
+        <br>
+        <table>
+            {{ orderchoice }}
+        </table>
+        <br>
+        <input type="submit" value="Apply filters">
+    </form>
+</div>
+<br>
+<div>
+    <table class="table">
+        <thread>
+            <tr>
+                <th scope="col">
+                    <p class="text-center">Room</p>
+                </th>
+                <th scope="col">
+                    <p class="text-center">Price</p>
+                </th>
+                <th scope="col">
+                    <p class="text-center">Total spots</p>
+                </th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            <tbody>
+                {% for room in rooms_list %}
+                <tr>
+                    <th scope="row">
+                        <p class="text-center">{{ room.number }}</p>
+                    </th>
+                    <td>
+                        <p class="text-center">{{ room.price }}/day</p>
+                    </td>
+                    <td>
+                        <p class="text-center">{{ room.spots }}</p>
+                    </td>
+
+                    {% if user_status == True %}
+
+                        {% if room.status == "Not reserved" %}
+                        <td>
+                            <p class="text-center">{{ room.status }}</p>
+                        </td>
+                        {% else %}
+                            <td class="text-center">{{ room.status }}:
+                                <div class="overflow-y-scroll" style="max-height: 60px;">
+                                    {% for reservation in room.reservation_data %}
+                                    <div class="border-end border-start" style="font-size: 80%;">
+                                        {{ reservation }}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        {% endif %}
+
+                    <td>
+                        <form method="post" action="/reservation/{{ room.number }}/">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-primary" value="Reserve room">
+                        </form>
+                    </td>
+
+                    {% else %}
+
+                    <td></td>
+                    <td></td>
+
+                    {% endif %}
+
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </thread>
+    </table>
+</div>
+
+{% endblock content %}
